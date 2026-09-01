@@ -12,11 +12,17 @@
  */
 
 module.exports = function timing(req, res, next) {
+  // Save the start time.
   const start = Date.now();
+  // Wait until the response is finished.
   res.on('finish', () => {
+    // Find the total time.
     const elapsed = Date.now() - start;
-    const id = req.id ? `[${req.id}] ` : '';
-    console.log(`${id}${req.method} ${req.url} took ${elapsed}ms`);
+    // Get the first 8 characters of the request ID.
+    const id = req.id ? `[${req.id.slice(0, 8)}] ` : '';
+    // Print the time taken.
+    console.log(`${id}${req.method} ${req.path} took ${elapsed}ms`);
   });
+  // Continue immediately.
   next();
 };
