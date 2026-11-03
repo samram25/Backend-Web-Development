@@ -37,9 +37,14 @@ router.get(
     failureRedirect: '/auth/failure',
   }),
   (req, res) => {
-    // req.user is the user returned by verifyCallback
-    // Issue YOUR app JWT here and return it as JSON.
-    res.json({ error: 'not implemented' }); // remove this line when you implement
+    // Create our application's JWT
+    const token = signToken({
+      sub: req.user.id,
+      role: req.user.role,
+    });
+
+    // Send the token as JSON
+    res.json({ token });
   },
 );
 
